@@ -1,0 +1,67 @@
+openapi: 3.0.3
+info:
+  title: To Do List - .Net REST API Service
+  description: >-
+    This is a sample API specification for a simple todo list application written in .Net
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+externalDocs:
+  description: Choreo
+  url: https://choreo.dev
+servers:
+  - url: http://localhost:5000
+tags:
+  - name: tasks
+    description: In-memory tasks list cache API
+paths:
+  /tasks:
+    summary: List all tasks
+    get:
+      summary: List all tasks
+      operationId: ListAllTasks
+      tags:
+        - tasks
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StringArray"
+    post:
+      summary: Insert a new task
+      operationId: SetNewTask
+      responses:
+        "200":
+          description: Successful operation
+        "400":
+          description: Invalid request body
+      tags:
+        - tasks
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/KeyValue"
+
+  /tasks/{uuid}:
+    delete:
+      tags:
+        - tasks
+      summary: Delete task by UUID
+      description: Deletes a single task based on the UUID supplied
+      operationId: DeleteTaskByUUID
+      parameters:
+        - name: uuid
+          in: path
+          description: UUID of task to delete
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful operation
+        "404":
+          description: Task not found
